@@ -17,7 +17,7 @@ void main() {
     channel.setMockMethodCallHandler(null);
   });
 
-  test('getPlatformVersion', () async {
-    expect(await SafeClipboard.platformVersion, '42');
+  test('SafeClipboard.get', () async {
+    expect(await SafeClipboard.get(), '42');
   });
 }

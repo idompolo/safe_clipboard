@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:safe_clipboard/safe_clipboard.dart';
 
@@ -16,33 +16,24 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  TextEditingController textEditingController = TextEditingController();
+  String _lastValue = 'None';
 
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
+  Future<void> getClipboard({iOSDetectionPattern? iOSDetectionPattern}) async {
+    String clipboardValue;
     try {
-      platformVersion =
-          await SafeClipboard.platformVersion ?? 'Unknown platform version';
+      clipboardValue = await SafeClipboard.get(
+            iOSDetectionPattern: iOSDetectionPattern,
+          ) ??
+          'Null response';
     } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+      clipboardValue = 'Failed to get clipboard data';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {
-      _platformVersion = platformVersion;
+      _lastValue = clipboardValue;
     });
   }
 
@@ -51,10 +42,74 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('SafeClipboard Example App'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Text('Last read value: $_lastValue'),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  child: const Text('Get Clipboard'),
+                  onPressed: () {
+                    getClipboard();
+                  },
+                ),
+                ElevatedButton(
+                  child: Text(
+                      'Get Clipboard with ${iOSDetectionPattern.probableWebURL.name}'),
+                  onPressed: () {
+                    getClipboard(
+                      iOSDetectionPattern: iOSDetectionPattern.probableWebURL,
+                    );
+                  },
+                ),
+                ElevatedButton(
+                  child: Text(
+                      'Get Clipboard with ${iOSDetectionPattern.probableWebSearch.name}'),
+                  onPressed: () {
+                    getClipboard(
+                      iOSDetectionPattern:
+                          iOSDetectionPattern.probableWebSearch,
+                    );
+                  },
+                ),
+                ElevatedButton(
+                  child: Text(
+                      'Get Clipboard with ${iOSDetectionPattern.number.name}'),
+                  onPressed: () {
+                    getClipboard(
+                      iOSDetectionPattern: iOSDetectionPattern.number,
+                    );
+                  },
+                ),
+                const SizedBox(height: 60),
+                ElevatedButton(
+                  child: const Text('Set Clipboard to https://www.google.com/'),
+                  onPressed: () {
+                    Clipboard.setData(
+                        const ClipboardData(text: 'https://www.google.com/'));
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text('Set Clipboard to cheap flights'),
+                  onPressed: () {
+                    Clipboard.setData(
+                        const ClipboardData(text: 'cheap flights'));
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text('Set Clipboard to 42'),
+                  onPressed: () {
+                    Clipboard.setData(const ClipboardData(text: '42'));
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
