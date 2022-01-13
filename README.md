@@ -17,17 +17,15 @@ Safe Clipboard exposes the ability to only read from the clipboard when the clip
 ```dart
 import 'package:safe_clipboard/safe_clipboard.dart';
 
-/// Gets the current clipboard text data.
+/// Here a common example of only accessing the clipboard when the clipboard
+/// is likely to be a URL. This is often used to check if the URL is a 
+/// deep link to your app. iOS can speficifally check for a URL, while on
+/// Android the closest thing is checking for plain text.
 ///
-/// On iOS you can pass in a specific [iOSDetectionPattern] to avoid accessing
-/// the clipboard if the current clipboard data is not relevent to your app.
-///
-/// This is used to avoid the system notification for clipboard access. Read
-/// more about this at the link below.
-///
-/// https://developer.apple.com/documentation/uikit/uipasteboard
+/// If the current clipboard data doesn't match the pattern, null is returned.
 var clipboard = await SafeClipboard.get(
     iOSDetectionPattern: iOSDetectionPattern.probableWebURL,
+    androidClipMimeType: AndroidClipMimeType.textPlain,
 );
 ```
 
