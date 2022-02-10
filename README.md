@@ -1,4 +1,4 @@
-# Safe Clipboard
+# Safe Clipboard ![Flutter 2.10.0](https://img.shields.io/badge/Flutter-2.10.0-blue)
 
 For most common use cases you can use the [Clipboard class](https://api.flutter.dev/flutter/services/Clipboard-class.html) built into Flutter.
 
