@@ -25,8 +25,8 @@ class SafeClipboard {
     final String? value = await _channel.invokeMethod(
       'getClipboardTextSafe',
       {
-        'iOSDetectionPattern': iOSDetectionPattern?.name,
-        'AndroidClipMimeType': androidClipMimeType?.name,
+        'iOSDetectionPattern': iOSDetectionPattern?.toString().split('.').last,
+        'AndroidClipMimeType': androidClipMimeType?.toString().split('.').last,
       },
     );
     return value;
