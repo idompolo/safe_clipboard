@@ -1,9 +1,9 @@
 package com.homex.safe_clipboard
 
 import android.app.Activity
-import android.content.ClipData
-import android.content.ClipDescription.*
-import android.content.ClipboardManager
+//import android.content.ClipData
+//import android.content.ClipDescription.*
+//import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -15,20 +15,20 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 class SafeClipboardPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
-    private lateinit var channel: MethodChannel
+   // private lateinit var channel: MethodChannel
     private var activity: Activity? = null
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "safe_clipboard")
-        channel.setMethodCallHandler(this)
+       // channel = MethodChannel(flutterPluginBinding.binaryMessenger, "safe_clipboard")
+       // channel.setMethodCallHandler(this)
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
-        if (call.method == "getClipboardTextSafe") {
-            getClipboardTextSafe(call, result)
-        } else {
-            result.notImplemented()
-        }
+       // if (call.method == "getClipboardTextSafe") {
+       //     getClipboardTextSafe(call, result)
+       // } else {
+       //     result.notImplemented()
+       // }
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -51,6 +51,7 @@ class SafeClipboardPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         activity = null
     }
 
+    /*
     private fun getClipboardTextSafe(call: MethodCall, result: Result) {
         activity?.let { activity ->
 
@@ -101,4 +102,5 @@ class SafeClipboardPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
         result.success(null)
     }
+    */
 }

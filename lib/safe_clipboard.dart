@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 
@@ -22,6 +23,7 @@ class SafeClipboard {
     iOSDetectionPattern? iOSDetectionPattern,
     AndroidClipMimeType? androidClipMimeType,
   }) async {
+    if(Platform.isAndroid) return null;
     final String? value = await _channel.invokeMethod(
       'getClipboardTextSafe',
       {
